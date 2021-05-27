@@ -1,10 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
 import HelloWorld from './components/HelloWorld';
+import TabMainPage from './components/tabs/TabMainPage'
 
 function App() {
   return (
-    <HelloWorld/>
+    <main>
+      <h1>TODO items notes</h1>
+
+      <TabMainPage/>
+    </main>
     // <div className="App">
     //   <header className="App-header">
     //     <img src={logo} className="App-logo" alt="logo" />
