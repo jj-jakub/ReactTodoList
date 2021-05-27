@@ -2,8 +2,8 @@ import React, { Component } from "react";
 
 import Constants from '../../constants/Constants'
 
-import TabMenuContainer from "./TabMenuContainer";
-import TabItem from "./TabItem";
+import TabMenuContainer from "./TabMenuContainer.js";
+import TabItem from "./TabItem.js";
 
 let tabItems = [Constants.allItemsTabName, Constants.finishedItemsTabName, Constants.todoItemsTabName];
 let activeItem = Constants.allItemsTabName;
@@ -17,9 +17,9 @@ class TabMainPage extends Component {
         return (
             <div>
                 <button>Click me too</button>
-                {/* <TabMenuContainer activeItem={activeItem} tabItems={tabItems}/> //on:tabChangeEvent={tabChange}/>
+                <TabMenuContainer activeItem={activeItem} tabItems={tabItems}/> {/*//on:tabChangeEvent={tabChange}/>*/}
 
-                <TabItem activeItem={activeItem}/> */}
+                <TabItem activeItem={activeItem}/>
             </div>
         )
     }

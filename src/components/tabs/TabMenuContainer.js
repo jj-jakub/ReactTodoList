@@ -4,7 +4,7 @@ import '../../styles/TabMenuContainer.css'
 import React, { Component } from "react";
 
 export let activeItem;
-export let tabItems;
+export let tabItems = [];
 
 class TabMenuContainer extends Component {
     render() {

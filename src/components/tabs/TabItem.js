@@ -1,8 +1,7 @@
-// import FinishedItemsListContainer from "../list/FinishedItemsListContainer.svelte";
-
-// import AllListContainer from "../list/AllListContainer.svelte";
-// import TodoItemsListContainer from "../list/TodoItemsListContainer.svelte";
-// import NewListItemInput from "../input/NewListItemInput.svelte";
+import FinishedItemsListContainer from "../list/FinishedItemsListContainer.js";
+import AllListContainer from "../list/AllListContainer.js";
+import TodoItemsListContainer from "../list/TodoItemsListContainer.js";
+import NewListItemInput from "../input/NewListItemInput.js";
 import React, { Component } from "react";
 
 import Constants from '../../constants/Constants'
@@ -40,17 +39,17 @@ class TabItem extends Component {
     render() {
         let container = <button>Click me</button>
 
-        // if (activeItem == Constants.allItemsTabName) {
-        //     container = <AllListContainer/> //bind:this="{childComponent}"/>
-        // } else if (activeItem == Constants.finishedItemsTabName) {
-        //     container = <FinishedItemsListContainer/> // bind:this="{childComponent}"/>
-        // } else {
-        //     container = <TodoItemsListContainer/> // bind:this="{childComponent}"/>
-        // }
+        if (activeItem == Constants.allItemsTabName) {
+            container = <AllListContainer/> //bind:this="{childComponent}"/>
+        } else if (activeItem == Constants.finishedItemsTabName) {
+            container = <FinishedItemsListContainer/> // bind:this="{childComponent}"/>
+        } else {
+            container = <TodoItemsListContainer/> // bind:this="{childComponent}"/>
+        }
         return (
             <div>
                 {container}
-                {/* <NewListItemInput/> // on:addButtonClick={onAddNewItemButtonClick}/> */}
+                <NewListItemInput/> {/*// on:addButtonClick={onAddNewItemButtonClick}/>*/}
             </div>
         );
     }
