@@ -1,19 +1,18 @@
 import '../../styles/ListItem.css'
 import React, { Component } from "react";
 
-let isChecked;
 class ListItem extends Component {
 
     constructor(props) {
         super(props)
         this.onListItemClick = this.onListItemClick.bind(this)
         this.deleteListItemClick = this.deleteListItemClick.bind(this)
-        isChecked = this.props.isChecked
+        this.isChecked = this.props.isChecked
     }
 
     onListItemClick() {
-        isChecked = !isChecked
-        this.props.onListItemClick(this.props.elementNumber, isChecked)
+        this.isChecked = !this.isChecked
+        this.props.onListItemClick(this.props.elementNumber, this.isChecked)
     }
 
     deleteListItemClick() {
@@ -23,7 +22,7 @@ class ListItem extends Component {
     render() {
         return (
             <div className="listitem">
-                <input onClick={this.onListItemClick} type="checkbox" checked={this.props.isChecked}/>{/* type={checkbox} on:click={onListItemClick}*/}
+                <input onClick={this.onListItemClick} type="checkbox" checked={this.isChecked}/>
                 
                 <p>{this.props.contentText}</p>
                 
