@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import '../../styles/NewListItemInput.css'
 
 class NewListItemInput extends Component {
     constructor() {
@@ -10,15 +11,12 @@ class NewListItemInput extends Component {
         let itemText = document.getElementById('itemTextInput').value
         document.getElementById('itemTextInput').value = ""
         this.props.onAddButtonClick(itemText)
-        // dispatch('addButtonClick', {
-        //     itemText: itemText
-        // })
     }
 
     render() {
         return (
-            <div> {/*class="newListItemInput"*/}
-                <input id="itemTextInput"/> {/*id="itemTextInput""*/}
+            <div className='newListItemInput'> {/*class="newListItemInput"*/}
+                <input  id="itemTextInput"/> {/*id="itemTextInput""*/}
                 <button onClick={this.onAddButtonClick}>Add item</button> {/* on:click={onAddButtonClick} */}
             </div>
         )
