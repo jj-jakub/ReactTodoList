@@ -17,7 +17,7 @@ class TabMainPage extends Component {
         return (
             <div>
                 <button>Click me too</button>
-                <TabMenuContainer activeItem={activeItem} tabItems={tabItems}/> {/*//on:tabChangeEvent={tabChange}/>*/}
+                <TabMenuContainer activeItem={activeItem} tabItems={tabItems} onTabChangeEvent={tabChange}/> {/*//on:tabChangeEvent={tabChange}/>*/}
 
                 <TabItem activeItem={activeItem}/>
             </div>

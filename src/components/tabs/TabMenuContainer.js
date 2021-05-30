@@ -7,9 +7,14 @@ export let activeItem;
 export let tabItems = [];
 
 class TabMenuContainer extends Component {
+
+    onTabChangeEvent(item) {
+        this.props.tabChange(item)
+    }
+
     render() {
         let listItems = tabItems.map((item) => 
-            <li>
+            <li onClick={() => this.onTabChangeEvent(item)}>
                 {/* on:click={() => dispatch('tabChangeEvent', item)}> */}
                 <div> {/*class:active={item === activeItem}>*/}{item}</div>
             </li>

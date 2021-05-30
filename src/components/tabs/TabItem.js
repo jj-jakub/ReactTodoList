@@ -10,10 +10,6 @@ export let activeItem;
 
 let childComponent;
 
-const onAddNewItemButtonClick = (e) => {
-    addListItem(e.detail.itemText)
-}
-
 async function addListItem(itemText) {
     const res = await fetch(Constants.serverAddress + Constants.getTodosEndpoint, { 
         method: 'POST',
@@ -24,7 +20,7 @@ async function addListItem(itemText) {
     })
     const text = await res.text()
 
-    childComponent.refresh()
+    // childComponent.refresh()
 
     if (res.ok) {
         promiseItems = text
@@ -36,20 +32,27 @@ async function addListItem(itemText) {
 let promiseItems = [];
 
 class TabItem extends Component {
+
+    onAddNewItemButtonClick(itemText) {
+        addListItem(itemText)
+    }
+
     render() {
         let container = <button>Click me</button>
 
+        activeItem = this.props.activeItem
         if (activeItem == Constants.allItemsTabName) {
-            container = <AllListContainer/> //bind:this="{childComponent}"/>
+            container = <AllListContainer /> //bind:this="{childComponent}"/>
         } else if (activeItem == Constants.finishedItemsTabName) {
             container = <FinishedItemsListContainer/> // bind:this="{childComponent}"/>
         } else {
             container = <TodoItemsListContainer/> // bind:this="{childComponent}"/>
         }
+        childComponent = container
         return (
             <div>
                 {container}
-                <NewListItemInput/> {/*// on:addButtonClick={onAddNewItemButtonClick}/>*/}
+                <NewListItemInput onAddButtonClick={this.onAddNewItemButtonClick}/> {/*// on:addButtonClick={onAddNewItemButtonClick}/>*/}
             </div>
         );
     }

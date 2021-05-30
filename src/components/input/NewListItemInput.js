@@ -1,20 +1,25 @@
 import React, { Component } from "react";
 
-function onAddButtonClick() {
-    let itemText = document.getElementById('itemTextInput').value
-    document.getElementById('itemTextInput').value = ""
-
-    // dispatch('addButtonClick', {
-    //     itemText: itemText
-    // })
-}
-
 class NewListItemInput extends Component {
+    constructor() {
+        super()
+        this.onAddButtonClick = this.onAddButtonClick.bind(this)
+    }
+
+    onAddButtonClick() {
+        let itemText = document.getElementById('itemTextInput').value
+        document.getElementById('itemTextInput').value = ""
+        this.props.onAddButtonClick(itemText)
+        // dispatch('addButtonClick', {
+        //     itemText: itemText
+        // })
+    }
+
     render() {
         return (
-            <div class="newListItemInput"> {/*class="newListItemInput"*/}
+            <div> {/*class="newListItemInput"*/}
                 <input id="itemTextInput"/> {/*id="itemTextInput""*/}
-                <button >Add item</button> {/* on:click={onAddButtonClick} */}
+                <button onClick={this.onAddButtonClick}>Add item</button> {/* on:click={onAddButtonClick} */}
             </div>
         )
     }

@@ -5,31 +5,31 @@ export let elementNumber;
 export let contentText;
 export let isChecked;
 
-function onListItemClick() { 
-    isChecked = !isChecked
-   
-    // dispatch('listItemClick', {
-    //     elementNumber: elementNumber,
-    //     checked: isChecked
-    // })
-}
-
-function onDeleteListItemClick() {
-    // dispatch('deleteListItemClick', {
-    //     elementNumber: elementNumber
-    // })
-}
-
 class ListItem extends Component {
+    constructor(props) {
+        super(props)
+        this.onListItemClick = this.onListItemClick.bind(this)
+        this.deleteListItemClick = this.deleteListItemClick.bind(this)
+    }
+
+    onListItemClick() {
+        isChecked = !isChecked
+        this.props.onListItemClick(elementNumber, isChecked)
+    }
+
+    deleteListItemClick() {
+        alert(JSON.stringify(this.props))
+        this.props.onDeleteListItemClick(elementNumber)
+    }
 
     render() {
         return (
             <div class="listitem">
-                <input checked={isChecked}/>{/* type={checkbox} on:click={onListItemClick}*/}
+                <input onClick={this.onListItemClick} type="checkbox" checked={isChecked}/>{/* type={checkbox} on:click={onListItemClick}*/}
                 
                 <p>{contentText}</p>
                 
-                <button >Delete</button>{/*on:click={onDeleteListItemClick}*/}
+                <button onClick={this.deleteListItemClick}>Delete</button>
             </div>
         );
     }

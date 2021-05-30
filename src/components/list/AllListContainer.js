@@ -2,16 +2,6 @@ import ListItem from "./ListItem.js";
 import { getAllItems, updateListItem, deleteListItem } from "../../server/ServerTodoUpdateMethods.js";
 import React, { Component } from "react";
 
-// let promiseItems = getAllItems();
-
-// const listItemClick = (e) => {
-//     promiseItems = updateListItem(e.detail.elementNumber, e.detail.checked, promiseItems)
-// }
-
-// const onDeleteListItemClick = (e) => {
-//     promiseItems = deleteListItem(e.detail.elementNumber, promiseItems)
-// }
-
 // export function refresh() {
 //     promiseItems = getAllItems()
 // }
@@ -19,7 +9,24 @@ import React, { Component } from "react";
 class AllListContainer extends Component {
     constructor() {
         super();
-        this.state = { promiseItems: [] }
+        this.state = { promiseItems: getAllItems() };
+        this.refresh = this.refresh.bind(this)
+        this.listItemClick = this.listItemClick.bind(this)
+        this.deleteListItemClick = this.deleteListItemClick.bind(this)
+    }
+
+    refresh() {
+        this.setState({ promiseItems: getAllItems() });
+    }
+
+    listItemClick(elementNumber, checked) {
+        let items = updateListItem(elementNumber, checked, this.state.promiseItems)
+        this.setState({ promiseItems: items });
+    }
+
+    deleteListItemClick(elementNumber) {
+        let items = this.state.promiseItems
+        this.setState({ promiseItems: deleteListItem(elementNumber, items) });
     }
 
     async componentDidMount() {
@@ -30,11 +37,11 @@ class AllListContainer extends Component {
     render() {
         return (
             <div>
-                {this.state.promiseItems.map(item => ( 
+                {Array.from(this.state.promiseItems).map((item, i) => 
                     <li>
-                        <ListItem contentText={item.text} isChecked={item.done}/> {/* elementNumber={i} on:listItemClick={listItemClick} on:deleteListItemClick={onDeleteListItemClick}/>*/}
+                        <ListItem onDeleteListItemClick={() => this.deleteListItemClick(i)} onListItemClick={this.listItemClick} contentText={item.text} isChecked={item.done}/> {/* elementNumber={i} on:listItemClick={listItemClick} on:deleteListItemClick={onDeleteListItemClick}/>*/}
                     </li>
-                ))}
+                )}
             </div>
         );
     }

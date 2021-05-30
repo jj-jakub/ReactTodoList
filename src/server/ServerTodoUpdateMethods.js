@@ -32,6 +32,7 @@ export async function updateListItem(itemId, checked, promiseItems) {
 
 export async function getAllItems() {
     const res = await fetch(Constants.serverAddress + Constants.getTodosEndpoint)
+    alert(res)
     const text = await res.text()
 
     if (res.ok) {
@@ -42,6 +43,7 @@ export async function getAllItems() {
 }
 
 async function getItemObjectId(itemNumber, promiseItems) {
-    let objectId = JSON.parse(await promiseItems)[itemNumber]._id
+    alert(itemNumber)
+    let objectId = JSON.stringify(promiseItems)[itemNumber]._id
     return objectId
 }
