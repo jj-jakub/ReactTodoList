@@ -5,6 +5,7 @@ import NewListItemInput from "../input/NewListItemInput.js";
 import React, { Component } from "react";
 
 import Constants from '../../constants/Constants'
+import { getAllItems } from "../../server/ServerTodoUpdateMethods.js";
 
 export let activeItem;
 
@@ -20,39 +21,42 @@ async function addListItem(itemText) {
     })
     const text = await res.text()
 
-    // childComponent.refresh()
-
     if (res.ok) {
-        promiseItems = text
+        return JSON.parse(text)
     } else {
         throw new Error(text)
     }
 }
 
-let promiseItems = [];
-
 class TabItem extends Component {
 
-    onAddNewItemButtonClick(itemText) {
-        addListItem(itemText)
+    constructor() {
+        super()
+        this.state = { promiseItems: [] }
+        this.onAddNewItemButtonClick = this.onAddNewItemButtonClick.bind(this)
+    }
+
+    async componentDidMount() {
+        this.setState({ promiseItems: await getAllItems()})
+    }
+
+    async onAddNewItemButtonClick(itemText) {
+        this.setState({ promiseItems: await addListItem(itemText)})
     }
 
     render() {
-        let container = <button>Click me</button>
-
         activeItem = this.props.activeItem
-        if (activeItem == Constants.allItemsTabName) {
-            container = <AllListContainer /> //bind:this="{childComponent}"/>
-        } else if (activeItem == Constants.finishedItemsTabName) {
-            container = <FinishedItemsListContainer/> // bind:this="{childComponent}"/>
+        if (activeItem === Constants.allItemsTabName) {
+            childComponent = <AllListContainer promiseItems={this.state.promiseItems}/>
+        } else if (activeItem === Constants.finishedItemsTabName) {
+            childComponent = <FinishedItemsListContainer promiseItems={this.state.promiseItems}/>
         } else {
-            container = <TodoItemsListContainer/> // bind:this="{childComponent}"/>
+            childComponent = <TodoItemsListContainer promiseItems={this.state.promiseItems}/>
         }
-        childComponent = container
         return (
             <div>
-                {container}
-                <NewListItemInput onAddButtonClick={this.onAddNewItemButtonClick}/> {/*// on:addButtonClick={onAddNewItemButtonClick}/>*/}
+                {childComponent}
+                <NewListItemInput onAddButtonClick={this.onAddNewItemButtonClick}/>
             </div>
         );
     }

@@ -1,33 +1,31 @@
 import '../../styles/ListItem.css'
 import React, { Component } from "react";
 
-export let elementNumber;
-export let contentText;
-export let isChecked;
-
+let isChecked;
 class ListItem extends Component {
+
     constructor(props) {
         super(props)
         this.onListItemClick = this.onListItemClick.bind(this)
         this.deleteListItemClick = this.deleteListItemClick.bind(this)
+        isChecked = this.props.isChecked
     }
 
     onListItemClick() {
         isChecked = !isChecked
-        this.props.onListItemClick(elementNumber, isChecked)
+        this.props.onListItemClick(this.props.elementNumber, isChecked)
     }
 
     deleteListItemClick() {
-        alert(JSON.stringify(this.props))
-        this.props.onDeleteListItemClick(elementNumber)
+        this.props.onDeleteListItemClick(this.props.elementNumber)
     }
 
     render() {
         return (
-            <div class="listitem">
-                <input onClick={this.onListItemClick} type="checkbox" checked={isChecked}/>{/* type={checkbox} on:click={onListItemClick}*/}
+            <div className="listitem">
+                <input onClick={this.onListItemClick} type="checkbox" checked={this.props.isChecked}/>{/* type={checkbox} on:click={onListItemClick}*/}
                 
-                <p>{contentText}</p>
+                <p>{this.props.contentText}</p>
                 
                 <button onClick={this.deleteListItemClick}>Delete</button>
             </div>

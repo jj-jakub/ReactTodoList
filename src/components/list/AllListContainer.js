@@ -1,45 +1,48 @@
 import ListItem from "./ListItem.js";
-import { getAllItems, updateListItem, deleteListItem } from "../../server/ServerTodoUpdateMethods.js";
+import { updateListItem, deleteListItem, getAllItems } from "../../server/ServerTodoUpdateMethods.js";
 import React, { Component } from "react";
 
-// export function refresh() {
-//     promiseItems = getAllItems()
-// }
+let itemsToShow = [];
 
 class AllListContainer extends Component {
-    constructor() {
-        super();
-        this.state = { promiseItems: getAllItems() };
-        this.refresh = this.refresh.bind(this)
+
+    constructor(props) {
+        super(props);
+        this.state = { promiseItems: [] };
         this.listItemClick = this.listItemClick.bind(this)
         this.deleteListItemClick = this.deleteListItemClick.bind(this)
+        this.getItems()
     }
 
-    refresh() {
-        this.setState({ promiseItems: getAllItems() });
+    async getItems() {
+        let items = await getAllItems()
+        itemsToShow = items
+        this.setState({ promiseItems: items})
     }
 
-    listItemClick(elementNumber, checked) {
-        let items = updateListItem(elementNumber, checked, this.state.promiseItems)
+    async listItemClick(elementNumber, checked) {
+        let items = await updateListItem(elementNumber, checked, itemsToShow)
         this.setState({ promiseItems: items });
     }
 
-    deleteListItemClick(elementNumber) {
-        let items = this.state.promiseItems
-        this.setState({ promiseItems: deleteListItem(elementNumber, items) });
+    async deleteListItemClick(elementNumber) {
+        let newItems = await deleteListItem(elementNumber, itemsToShow)
+        this.setState({ promiseItems: newItems });
+        itemsToShow = await getAllItems()
     }
 
-    async componentDidMount() {
-        const jsonItems = JSON.parse(await getAllItems());
-        this.setState({ promiseItems: jsonItems });
+    shouldComponentUpdate(newProps, newState) {
+        if (newProps.promiseItems !== this.props.promiseItems) itemsToShow = newProps.promiseItems
+        else if (newState.promiseItems !== []) itemsToShow = newState.promiseItems
+        return true
     }
 
     render() {
         return (
             <div>
-                {Array.from(this.state.promiseItems).map((item, i) => 
+                {Array.from(itemsToShow).map((item, i) => 
                     <li>
-                        <ListItem onDeleteListItemClick={() => this.deleteListItemClick(i)} onListItemClick={this.listItemClick} contentText={item.text} isChecked={item.done}/> {/* elementNumber={i} on:listItemClick={listItemClick} on:deleteListItemClick={onDeleteListItemClick}/>*/}
+                        <ListItem elementNumber={i} onDeleteListItemClick={() => this.deleteListItemClick(i)} onListItemClick={this.listItemClick} contentText={item.text} isChecked={item.done}/>
                     </li>
                 )}
             </div>

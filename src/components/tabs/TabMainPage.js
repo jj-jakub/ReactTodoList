@@ -6,20 +6,24 @@ import TabMenuContainer from "./TabMenuContainer.js";
 import TabItem from "./TabItem.js";
 
 let tabItems = [Constants.allItemsTabName, Constants.finishedItemsTabName, Constants.todoItemsTabName];
-let activeItem = Constants.allItemsTabName;
-
-const tabChange = (e) => {
-    activeItem = e.detail;
-}  
 
 class TabMainPage extends Component {
+    
+    constructor() {
+        super()
+        this.state = { activeItem: Constants.allItemsTabName}
+        this.tabChange = this.tabChange.bind(this)
+    }
+
+    tabChange(newActiveItem) {
+        this.setState({activeItem: newActiveItem})
+    }
+
     render() {
         return (
             <div>
-                <button>Click me too</button>
-                <TabMenuContainer activeItem={activeItem} tabItems={tabItems} onTabChangeEvent={tabChange}/> {/*//on:tabChangeEvent={tabChange}/>*/}
-
-                <TabItem activeItem={activeItem}/>
+                <TabMenuContainer activeItem={this.state.activeItem} tabItems={tabItems} onTabChangeEvent={this.tabChange}/> {/*//on:tabChangeEvent={tabChange}/>*/}
+                <TabItem activeItem={this.state.activeItem}/>
             </div>
         )
     }

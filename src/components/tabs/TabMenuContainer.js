@@ -1,6 +1,4 @@
 import '../../styles/TabMenuContainer.css'
-// import { createEventDispatcher } from 'svelte'
-// const dispatch = createEventDispatcher();
 import React, { Component } from "react";
 
 export let activeItem;
@@ -8,15 +6,20 @@ export let tabItems = [];
 
 class TabMenuContainer extends Component {
 
+    constructor() {
+        super()
+        this.onTabChangeEvent = this.onTabChangeEvent.bind(this)
+    }
+
     onTabChangeEvent(item) {
-        this.props.tabChange(item)
+        this.props.onTabChangeEvent(item)
     }
 
     render() {
-        let listItems = tabItems.map((item) => 
+
+        let listItems = this.props.tabItems.map((item) =>
             <li onClick={() => this.onTabChangeEvent(item)}>
-                {/* on:click={() => dispatch('tabChangeEvent', item)}> */}
-                <div> {/*class:active={item === activeItem}>*/}{item}</div>
+                <div className={item === this.props.activeItem ? 'active' : ''}>{item}</div>
             </li>
             );
         return (

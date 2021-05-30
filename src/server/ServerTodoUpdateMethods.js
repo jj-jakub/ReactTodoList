@@ -4,9 +4,9 @@ export async function deleteListItem(itemId, promiseItems) {
     let objectId = await getItemObjectId(itemId, promiseItems)
     const res = await fetch(Constants.serverAddress + Constants.deleteItemEndpoint + objectId, { method: 'DELETE' })
     const text = await res.text()
-
+    alert(text)
     if (res.ok) {
-        return text
+        return JSON.parse(text)
     } else {
         throw new Error(text)
     }
@@ -24,7 +24,7 @@ export async function updateListItem(itemId, checked, promiseItems) {
     const text = await res.text()
 
     if (res.ok) {
-        return text
+        return JSON.parse(text)
     } else {
         throw new Error(text)
     }
@@ -32,18 +32,16 @@ export async function updateListItem(itemId, checked, promiseItems) {
 
 export async function getAllItems() {
     const res = await fetch(Constants.serverAddress + Constants.getTodosEndpoint)
-    alert(res)
     const text = await res.text()
 
     if (res.ok) {
-        return text
+        return JSON.parse(text)
     } else {
         throw new Error(text)
     }
 }
 
 async function getItemObjectId(itemNumber, promiseItems) {
-    alert(itemNumber)
-    let objectId = JSON.stringify(promiseItems)[itemNumber]._id
+    let objectId = promiseItems[itemNumber]._id
     return objectId
 }
