@@ -5,7 +5,7 @@ import NewListItemInput from "../input/NewListItemInput.js";
 import React, { Component } from "react";
 
 import Constants from '../../constants/Constants'
-import { getAllItems } from "../../server/ServerTodoUpdateMethods.js";
+import { updateListItem, deleteListItem, getAllItems } from "../../server/ServerTodoUpdateMethods.js";
 
 export let activeItem;
 
@@ -34,6 +34,8 @@ class TabItem extends Component {
         super()
         this.state = { promiseItems: [] }
         this.onAddNewItemButtonClick = this.onAddNewItemButtonClick.bind(this)
+        this.listItemClick = this.listItemClick.bind(this)
+        this.deleteListItemClick = this.deleteListItemClick.bind(this)
     }
 
     async componentDidMount() {
@@ -44,14 +46,24 @@ class TabItem extends Component {
         this.setState({ promiseItems: await addListItem(itemText)})
     }
 
+    async listItemClick(elementNumber, checked) {
+        let items = await updateListItem(elementNumber, checked, this.state.promiseItems)
+        this.setState({ promiseItems: items });
+    }
+
+    async deleteListItemClick(elementNumber) {
+        let newItems = await deleteListItem(elementNumber, this.state.promiseItems)
+        this.setState({ promiseItems: newItems });
+    }
+
     render() {
         activeItem = this.props.activeItem
         if (activeItem === Constants.allItemsTabName) {
-            childComponent = <AllListContainer promiseItems={this.state.promiseItems}/>
+            childComponent = <AllListContainer promiseItems={this.state.promiseItems} onListItemClick={this.listItemClick} onDeleteListItemClick={this.deleteListItemClick}/>
         } else if (activeItem === Constants.finishedItemsTabName) {
-            childComponent = <FinishedItemsListContainer promiseItems={this.state.promiseItems}/>
+            childComponent = <FinishedItemsListContainer promiseItems={this.state.promiseItems} onListItemClick={this.listItemClick} onDeleteListItemClick={this.deleteListItemClick}/>
         } else {
-            childComponent = <TodoItemsListContainer promiseItems={this.state.promiseItems}/>
+            childComponent = <TodoItemsListContainer promiseItems={this.state.promiseItems} onListItemClick={this.listItemClick} onDeleteListItemClick={this.deleteListItemClick}/>
         }
         return (
             <div>

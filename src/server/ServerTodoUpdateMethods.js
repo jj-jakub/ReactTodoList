@@ -4,7 +4,6 @@ export async function deleteListItem(itemId, promiseItems) {
     let objectId = await getItemObjectId(itemId, promiseItems)
     const res = await fetch(Constants.serverAddress + Constants.deleteItemEndpoint + objectId, { method: 'DELETE' })
     const text = await res.text()
-    alert(text)
     if (res.ok) {
         return JSON.parse(text)
     } else {

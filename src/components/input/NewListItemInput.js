@@ -15,9 +15,9 @@ class NewListItemInput extends Component {
 
     render() {
         return (
-            <div className='newListItemInput'> {/*class="newListItemInput"*/}
-                <input  id="itemTextInput"/> {/*id="itemTextInput""*/}
-                <button onClick={this.onAddButtonClick}>Add item</button> {/* on:click={onAddButtonClick} */}
+            <div className='newListItemInput'>
+                <input  id="itemTextInput"/>
+                <button onClick={this.onAddButtonClick}>Add item</button>
             </div>
         )
     }
