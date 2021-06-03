@@ -1,6 +1,4 @@
-import logo from './logo.svg';
 import './App.css';
-import HelloWorld from './components/HelloWorld';
 import TabMainPage from './components/tabs/TabMainPage'
 
 function App() {
